@@ -37,23 +37,6 @@
   </section>
   <section><h2>Result</h2><pre id="result">Please log in to test the protected features.</pre></section>
 </main>
-<script>
-const result = document.getElementById("result");
-document.getElementById("loginForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target));
-  const r = await fetch("/login", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-  result.textContent = await r.text();
-});
-document.getElementById("uploadForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const r = await fetch("/upload", {method:"POST",body:new FormData(e.target)});
-  result.textContent = await r.text();
-});
-document.getElementById("logout").addEventListener("click", async () => {
-  const r = await fetch("/logout", {method:"POST"});
-  result.textContent = await r.text();
-});
-</script>
+<script src="/app.js" defer></script>
 </body>
 </html>
