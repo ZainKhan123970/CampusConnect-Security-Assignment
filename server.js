@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs");
 const db = require("./db");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const PRIVATE_UPLOAD_DIR = path.join(__dirname, "private_uploads");
 
 if (!fs.existsSync(PRIVATE_UPLOAD_DIR)) {
@@ -160,7 +160,7 @@ app.use((err, req, res, next) => {
   res.status(400).json({ error: err.message || "Request failed." });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`CampusConnect running at http://localhost:${PORT}`);
   console.log("Demo account: student / Campus@123");
 });
