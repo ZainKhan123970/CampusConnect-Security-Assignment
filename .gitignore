@@ -1,0 +1,5 @@
+node_modules/
+campusconnect.db
+private_uploads/*
+!private_uploads/.gitkeep
+.env

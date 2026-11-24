@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusConnect Security Demo</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f5f9;margin:0;color:#172033}
+    main{max-width:720px;margin:40px auto;padding:24px}
+    section{background:white;padding:22px;margin:16px 0;border-radius:12px;box-shadow:0 3px 14px #14213d12}
+    input,button{padding:11px;margin:6px 0;width:100%;box-sizing:border-box}
+    button{background:#2457d6;color:white;border:0;border-radius:7px;cursor:pointer}
+    small{color:#596579} pre{white-space:pre-wrap;background:#f0f3f8;padding:12px;border-radius:7px}
+  </style>
+</head>
+<body>
+<main>
+  <h1>CampusConnect</h1>
+  <p>Student portal — local security controls demonstration</p>
+  <section>
+    <h2>Student Login</h2>
+    <form id="loginForm">
+      <input name="username" placeholder="Username" required>
+      <input name="password" type="password" placeholder="Password" required>
+      <button>Log in securely</button>
+    </form>
+    <small>Demo account: student / Campus@123</small>
+    <button id="logout">Log out</button>
+  </section>
+  <section>
+    <h2>Profile Picture Upload</h2>
+    <form id="uploadForm">
+      <input type="file" name="profilePicture" accept=".jpg,.jpeg,.png" required>
+      <button>Upload profile picture</button>
+    </form>
+    <small>JPG/PNG only · Maximum 2 MB · Login required</small>
+  </section>
+  <section><h2>Result</h2><pre id="result">Please log in to test the protected features.</pre></section>
+</main>
+<script>
+const result = document.getElementById("result");
+document.getElementById("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const r = await fetch("/login", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+  result.textContent = await r.text();
+});
+document.getElementById("uploadForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const r = await fetch("/upload", {method:"POST",body:new FormData(e.target)});
+  result.textContent = await r.text();
+});
+document.getElementById("logout").addEventListener("click", async () => {
+  const r = await fetch("/logout", {method:"POST"});
+  result.textContent = await r.text();
+});
+</script>
+</body>
+</html>
